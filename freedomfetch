@@ -1,0 +1,70 @@
+#!/bin/bash
+
+clear
+
+# Colors
+BOLD="\033[1m"
+RESET="\033[0m"
+
+echo "        🦅 FREEDOM FETCH 🇺🇸"
+echo "================================="
+
+# OS
+OS=$(grep PRETTY_NAME /etc/os-release | cut -d= -f2 | tr -d '"')
+echo "🖥️  OS: $OS"
+
+# Kernel
+echo "🐧 Kernel: $(uname -r)"
+
+# Desktop Environment
+echo "🪟 DE: ${XDG_CURRENT_DESKTOP:-Unknown}"
+
+# CPU
+CPU=$(lscpu | grep "Model name" | cut -d: -f2 | xargs)
+echo "🔥 CPU: $CPU"
+
+# GPU
+GPU=$(lspci | grep -i 'vga\|3d' | cut -d: -f3 | xargs)
+echo "🎮 GPU: ${GPU:-Unknown}"
+
+# RAM
+RAM=$(free -h | awk '/Mem:/ {print $2}')
+echo "🧠 RAM: $RAM"
+
+# Storage
+DISK=$(lsblk -d -o SIZE,MODEL | tail -n +2 | head -1)
+echo "💾 Storage: $DISK"
+
+# Uptime
+echo "⏱️  Uptime: $(uptime -p)"
+
+echo "================================="
+
+# Price jokes
+echo "💰 MARKET CHECK"
+
+# CPU guesses
+if [[ "$CPU" == *"Ryzen 7"* ]] || [[ "$CPU" == *"Core i7"* ]]; then
+    echo "🔥 CPU Value: >\$100 (Basically Oil)"
+else
+    echo "🔥 CPU Value: Probably not oil"
+fi
+
+# GPU guesses
+if [[ "$GPU" == *"RTX"* ]] || [[ "$GPU" == *"RX 6"* ]] || [[ "$GPU" == *"RX 7"* ]]; then
+    echo "🎮 GPU Value: >\$100 (Basically Oil)"
+else
+    echo "🎮 GPU Value: Not detected as oil"
+fi
+
+# RAM
+RAM_GB=$(free -g | awk '/Mem:/ {print $2}')
+if [ "$RAM_GB" -ge 16 ]; then
+    echo "🧠 RAM Value: >\$100 (Basically Oil)"
+else
+    echo "🧠 RAM Value: Budget beans"
+fi
+
+echo "================================="
+echo "🗿 GAWD BLESS THE UNAIDED STEITS"
+echo "🦅 KDE POWER. LINUX POWER."
